@@ -38,9 +38,11 @@ class Stocks:
             to_datetime(price.index[-1])
         ]
 
+        astat_tickers = list(astat.columns.get_level_values(0).unique())
+
         __mem__ = dDict()
         for ticker in tickers:
-            if not ticker in basis.index:
+            if (not ticker in basis.index) or (not ticker in astat_tickers):
                 self.log = f'     ...TICKER NOT FOUND IN BASELINE: {ticker}'
                 continue
             fng = fnguide(ticker)
