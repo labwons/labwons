@@ -65,8 +65,11 @@ if __name__ == "__main__":
         # IS NOT MATCHED. THIS CODE IS IMPLEMENTED IN ORDER TO AVOID RUNNING ON WEEKDAY WHILE
         # HOLIDAYS OF THE MARKET.
         from pykrx.stock import get_nearest_business_day_in_a_week
-        if get_nearest_business_day_in_a_week() != CLOCK().strftime("%Y%m%d"):
-            raise SystemExit
+        try:
+            if get_nearest_business_day_in_a_week() != CLOCK().strftime("%Y%m%d"):
+                raise SystemExit
+        except IndexError:
+            pass
 
         # ON GITHUB ACTIONS, IF SCHEDULED TIME IS ACTIVATED BEFORE THE MARKET IS CLOSED,
         # WHICH HARDLY HAPPENS, BUILD AND DEPLOY WILL HOLD UNTIL THE MARKET IS CLOSED.
