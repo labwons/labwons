@@ -236,56 +236,56 @@ if __name__ == "__main__":
     # ---------------------------------------------------------------------------------------
     # UPDATE STOCK PRICE
     # ---------------------------------------------------------------------------------------
-    if (not DOMAIN == "HKEFICO") and GITHUB.CONFIG.STOCKPRICE:
-        tickersMap = marketMap.stat.loc[["minTicker", "maxTicker"]].values.flatten().tolist()
-        tickersBub = marketBubble.todaySpecials
-        tickers = list(set(tickersMap + tickersBub + TICKERS))
-
-        cache = CacheStock(*tickers)
-        cache.ohlcv.to_parquet(FILE.PRICE, engine='pyarrow')
-        cache.marketCap.to_parquet(FILE.MARKET_CAP, engine='pyarrow')
-        cache.perBand.to_parquet(FILE.PER_BAND, engine='pyarrow')
-        cache.foreignRate.to_parquet(FILE.FOREIGN_RATE, engine='pyarrow')
-
-        context += [f'- [{"FAILED" if "Failed" in cache.log else "SUCCESS"}] UPDATE STOCK PRICE ', cache.log, '']
-    else:
-        context += [f"- [PASSED] UPDATE STOCK PRICE: ", ""]
+    # if (not DOMAIN == "HKEFICO") and GITHUB.CONFIG.STOCKPRICE:
+    #     tickersMap = marketMap.stat.loc[["minTicker", "maxTicker"]].values.flatten().tolist()
+    #     tickersBub = marketBubble.todaySpecials
+    #     tickers = list(set(tickersMap + tickersBub + TICKERS))
+    #
+    #     cache = CacheStock(*tickers)
+    #     cache.ohlcv.to_parquet(FILE.PRICE, engine='pyarrow')
+    #     cache.marketCap.to_parquet(FILE.MARKET_CAP, engine='pyarrow')
+    #     cache.perBand.to_parquet(FILE.PER_BAND, engine='pyarrow')
+    #     cache.foreignRate.to_parquet(FILE.FOREIGN_RATE, engine='pyarrow')
+    #
+    #     context += [f'- [{"FAILED" if "Failed" in cache.log else "SUCCESS"}] UPDATE STOCK PRICE ', cache.log, '']
+    # else:
+    #     context += [f"- [PASSED] UPDATE STOCK PRICE: ", ""]
 
     # ---------------------------------------------------------------------------------------
     # DEPLOY STOCKS
     # ---------------------------------------------------------------------------------------
-    if GITHUB.CONFIG.STOCKDEPLOY:
-        stocks = Stocks()
-        PATH.STOCKS = os.path.join(PATH.DOCS, r'stocks')
-        os.makedirs(PATH.STOCKS, exist_ok=True)
-        clearPath(PATH.STOCKS)
-
-        for ticker, stock in stocks:
-            render = {
-                "service": "stock",
-                "local": ENV == "local",
-                "title": "404" if ENV == "local" else f"LAB￦ONS: {stock.name}",
-                "nav": SYSTEM_NAV,
-                "tradingDate": f'{TRADING_DATE}\u0020\uc885\uac00\u0020\uae30\uc900',
-                "ticker": ticker,
-            }
-            render.update(stock)
-            os.makedirs(os.path.join(PATH.STOCKS, rf'{ticker}'), exist_ok=True)
-            with open(file=os.path.join(PATH.STOCKS, rf'{ticker}/index.html'), mode='w', encoding='utf-8') as file:
-                file.write(
-                    Environment(loader=FileSystemLoader(PATH.TEMPLATES)) \
-                        .get_template('stock-1.0.0.html') \
-                        .render(render)
-                )
-        context += [f'- [SUCCESS] DEPLOY INDIVIDUAL STOCK: ', stocks.log, '']
-        if TICKERS:
-            context += [f'- [USER TICKERS]: ']
-            for ticker in TICKERS:
-                name = marketData.loc[ticker]['name'] if ticker in marketData.index else 'Unknown'
-                context += [f'  {ticker} / {name}']
-            context += ['']
-    else:
-        context += [f'- [PASSED] DEPLOY INDIVIDUAL STOCK: ', '']
+    # if GITHUB.CONFIG.STOCKDEPLOY:
+    #     stocks = Stocks()
+    #     PATH.STOCKS = os.path.join(PATH.DOCS, r'stocks')
+    #     os.makedirs(PATH.STOCKS, exist_ok=True)
+    #     clearPath(PATH.STOCKS)
+    #
+    #     for ticker, stock in stocks:
+    #         render = {
+    #             "service": "stock",
+    #             "local": ENV == "local",
+    #             "title": "404" if ENV == "local" else f"LAB￦ONS: {stock.name}",
+    #             "nav": SYSTEM_NAV,
+    #             "tradingDate": f'{TRADING_DATE}\u0020\uc885\uac00\u0020\uae30\uc900',
+    #             "ticker": ticker,
+    #         }
+    #         render.update(stock)
+    #         os.makedirs(os.path.join(PATH.STOCKS, rf'{ticker}'), exist_ok=True)
+    #         with open(file=os.path.join(PATH.STOCKS, rf'{ticker}/index.html'), mode='w', encoding='utf-8') as file:
+    #             file.write(
+    #                 Environment(loader=FileSystemLoader(PATH.TEMPLATES)) \
+    #                     .get_template('stock-1.0.0.html') \
+    #                     .render(render)
+    #             )
+    #     context += [f'- [SUCCESS] DEPLOY INDIVIDUAL STOCK: ', stocks.log, '']
+    #     if TICKERS:
+    #         context += [f'- [USER TICKERS]: ']
+    #         for ticker in TICKERS:
+    #             name = marketData.loc[ticker]['name'] if ticker in marketData.index else 'Unknown'
+    #             context += [f'  {ticker} / {name}']
+    #         context += ['']
+    # else:
+    #     context += [f'- [PASSED] DEPLOY INDIVIDUAL STOCK: ', '']
 
     # ---------------------------------------------------------------------------------------
     # BUILD MACRO BASELINE: THIS PROCESS IS MANDATORY
