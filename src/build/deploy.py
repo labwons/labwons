@@ -87,7 +87,8 @@ if __name__ == "__main__":
 
     if GITHUB.EVENT == "workflow_dispatch":
         # CLEAN-UP DEPLOYMENT
-        GITHUB.CONFIG.RESET()
+        # GITHUB.CONFIG.RESET()
+        pass
 
     if GITHUB.EVENT == "push":
         # EXTERNAL CONFIGURATION FOR BUILD CACHING. CONFIGURATION SCRIPT AT //src/common/env.py
