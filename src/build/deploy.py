@@ -11,7 +11,7 @@ if __name__ == "__main__":
         from ..fetch.market.finances import FinancialStatement
         from ..fetch.market.sector import SectorComposition
         from ..fetch.macro.ecos import Ecos
-        from ..fetch.macro.fred import Fred
+        # from ..fetch.macro.fred import Fred
         from ..fetch.stock.wrapper import CacheStock
         from .baseline.metadata import ECOSMETA, FREDMETA
         from .baseline.market import MarketBaseline
@@ -28,7 +28,7 @@ if __name__ == "__main__":
         from src.fetch.market.finances import FinancialStatement
         from src.fetch.market.sector import SectorComposition
         from src.fetch.macro.ecos import Ecos
-        from src.fetch.macro.fred import Fred
+        # from src.fetch.macro.fred import Fred
         from src.fetch.stock.wrapper import CacheStock
         from src.build.baseline.metadata import ECOSMETA, FREDMETA
         from src.build.baseline.market import MarketBaseline
@@ -114,15 +114,15 @@ if __name__ == "__main__":
     # ---------------------------------------------------------------------------------------
     # UPDATE MACRO: FRED
     # ---------------------------------------------------------------------------------------
-    if GITHUB.CONFIG.FRED:
-        try:
-            fred = Fred()
-            fred.data(FREDMETA).to_parquet(path=FILE.FRED, engine='pyarrow')
-            context += [f"- [SUCCESS] UPDATE FRED: ", fred.log, ""]
-        except Exception as report:
-            context += [f"- [FAILED] UPDATE FRED: ", f'{report}', ""]
-    else:
-        context += [f"- [PASSED] UPDATE FRED: ", ""]
+    # if GITHUB.CONFIG.FRED:
+    #     try:
+    #         fred = Fred()
+    #         fred.data(FREDMETA).to_parquet(path=FILE.FRED, engine='pyarrow')
+    #         context += [f"- [SUCCESS] UPDATE FRED: ", fred.log, ""]
+    #     except Exception as report:
+    #         context += [f"- [FAILED] UPDATE FRED: ", f'{report}', ""]
+    # else:
+    #     context += [f"- [PASSED] UPDATE FRED: ", ""]
 
     # ---------------------------------------------------------------------------------------
     # UPDATE SECTOR COMPOSITION
@@ -328,13 +328,12 @@ if __name__ == "__main__":
     # ---------------------------------------------------------------------------------------
     # DEPLOY RESOURCES
     # ---------------------------------------------------------------------------------------
+    try:
+        minify(DOCS)
+        context += [f'- [SUCCESS] MINIFY RESOURCES ', '']
+    except Exception as error:
+        context += [f'- [FAILED] MINIFY RESOURCES ', f'  : {error}', '']
     if not ENV == "local":
-        try:
-            minify(DOCS)
-            context += [f'- [SUCCESS] MINIFY RESOURCES ', '']
-        except Exception as error:
-            context += [f'- [FAILED] MINIFY RESOURCES ', f'  : {error}', '']
-
         try:
             rss(DOCS, "https://labwons.com", os.path.join(DOCS, "feed.xml"))
             sitemap(DOCS, "https://labwons.com", os.path.join(DOCS, "sitemap.xml"))

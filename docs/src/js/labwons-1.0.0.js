@@ -84,7 +84,7 @@ if (SERVICE === "marketmap"){
 
   var currentMapViewer = 'all';
   var currentBarViewer = 'industry';
-  var currentOption    = 'return1Day';
+  var currentOption    = 'returnOn1Day';
   
   mouseEvent.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 
@@ -207,7 +207,8 @@ if (SERVICE === "marketmap"){
       displayModeBar:false,
       responsive:true,
       showTips:false,
-    };    
+    };
+    var meta = srcIndicatorOpt[key];
     var data = {
       type:'bar',
       x:[],
@@ -219,7 +220,7 @@ if (SERVICE === "marketmap"){
       text:[],
       textposition: 'outside',
       meta:[],
-      hovertemplate: '%{meta}<br>' + srcIndicatorOpt[key].label + ': %{text}<extra></extra>',
+      hovertemplate: '%{meta}<br>' + meta.label + ': %{text}<extra></extra>',
       opacity:0.9
     };
 
@@ -237,15 +238,15 @@ if (SERVICE === "marketmap"){
     });
     tickers.forEach(obj => {
       if (typeof obj[key] === 'string'){
-        obj[key] = parseFloat(obj[key].replace(srcIndicatorOpt[key].unit, ""));
+        obj[key] = parseFloat(obj[key].replace(meta.unit, ""));
       }      
     });
     
     tickers.sort((a, b) => a[key] - b[key]).forEach(item => {
       data.x.push(Math.abs(item[key]));
       data.y.push(item.name);
-      data.marker.color.push(item[`${key}Color`]);
-      data.text.push(`${item[key]}${srcIndicatorOpt[key].unit}`);
+      data.marker.color.push(item[`${key}_c`]);
+      data.text.push(`${item[key]}${meta.unit}`);
       data.meta.push(item.meta);
     });
     data.x = data.x.map(item => item + 0.3333 * Math.max(...data.x));
@@ -309,6 +310,7 @@ if (SERVICE === "marketmap"){
       responsive:true,
       showTips:false
     };
+    var meta = srcIndicatorOpt[key];
     var data = {
       type:'treemap',
       branchvalues:'total',
@@ -327,7 +329,7 @@ if (SERVICE === "marketmap"){
         colors: [],
         visible: true,
       },
-      hovertemplate: '%{meta}<br>' + srcIndicatorOpt[key].label + ': %{text}<extra></extra>',
+      hovertemplate: '%{meta}<br>' + meta.label + ': %{text}<extra></extra>',
       hoverlabel: {
         font: {
           family: __fonts__,
@@ -351,11 +353,11 @@ if (SERVICE === "marketmap"){
         }
       }
       data.labels.push(obj.name);
-      data.parents.push(obj.ceiling);
+      data.parents.push(obj.ceil);
       data.values.push(obj.size);
-      data.text.push(obj[key]);
+      data.text.push(obj[key] + meta.unit);
       data.meta.push(obj.meta);
-      data.marker.colors.push(obj[`${key}Color`]);
+      data.marker.colors.push(obj[`${key}_c`]);
     });
     Plotly.newPlot('plotly', [data], layout, option);
   }
@@ -413,7 +415,7 @@ if (SERVICE === "marketmap"){
 
   $searchBar.on('select2:select', function(e){
     const ticker = srcTicker[e.params.data.id];
-    eventClickTreemap(ticker.ceiling);
+    eventClickTreemap(ticker.ceil);
     setTimeout(function(){
         eventClickTreemap(ticker.name);
     }, 1000);
