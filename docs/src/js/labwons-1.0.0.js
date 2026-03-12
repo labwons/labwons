@@ -355,7 +355,15 @@ if (SERVICE === "marketmap"){
       data.labels.push(obj.name);
       data.parents.push(obj.ceil);
       data.values.push(obj.size);
-      data.text.push(obj[key] + meta.unit);
+      if (obj[key] === null) {
+        if (key.endsWith('Pe')){
+          data.text.push('(적자)');
+        } else {
+          data.text.push('(미제공)');
+        }
+      } else {
+        data.text.push(obj[key] + meta.unit);
+      }
       data.meta.push(obj.meta);
       data.marker.colors.push(obj[`${key}_c`]);
     });
