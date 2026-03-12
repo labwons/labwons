@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '**/env.py'
+      - 'docs/**'
 
 permissions:
   contents: write
