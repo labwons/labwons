@@ -185,26 +185,26 @@ if __name__ == "__main__":
     # ---------------------------------------------------------------------------------------
     # DEPLOY MARKET MAP
     # ---------------------------------------------------------------------------------------
-    try:
-        marketMap = MarketMap(marketData)
-        with open(file=os.path.join(PATH.DOCS, 'index.html'), mode='w', encoding='utf-8') as file:
-            file.write(
-                Environment(loader=FileSystemLoader(PATH.TEMPLATES)) \
-                    .get_template('marketmap-1.0.0.html') \
-                    .render({
-                    "service": "marketmap",
-                    "local": ENV == "local",
-                    "title": "404" if ENV == "local" else "LAB￦ONS: \uc2dc\uc7a5\uc9c0\ub3c4",
-                    "nav": SYSTEM_NAV,
-                    "tradingDate": f'{TRADING_DATE}\u0020\uc885\uac00\u0020\uae30\uc900',
-                    "statusValue": marketMap.stat.to_dict(),
-                    "srcTicker": marketMap.data.to_json(orient='index'),
-                    "srcIndicatorOpt": dumps(marketMap.meta),
-                })
-            )
-        context += [f'- [SUCCESS] DEPLOY MARKET MAP', marketMap.log, '']
-    except Exception as error:
-        context += [f'- [FAILED] DEPLOY MARKET MAP', f'  : {error}', '']
+    # try:
+    #     marketMap = MarketMap(marketData)
+    #     with open(file=os.path.join(PATH.DOCS, 'index.html'), mode='w', encoding='utf-8') as file:
+    #         file.write(
+    #             Environment(loader=FileSystemLoader(PATH.TEMPLATES)) \
+    #                 .get_template('marketmap-1.0.0.html') \
+    #                 .render({
+    #                 "service": "marketmap",
+    #                 "local": ENV == "local",
+    #                 "title": "404" if ENV == "local" else "LAB￦ONS: \uc2dc\uc7a5\uc9c0\ub3c4",
+    #                 "nav": SYSTEM_NAV,
+    #                 "tradingDate": f'{TRADING_DATE}\u0020\uc885\uac00\u0020\uae30\uc900',
+    #                 "statusValue": marketMap.stat.to_dict(),
+    #                 "srcTicker": marketMap.data.to_json(orient='index'),
+    #                 "srcIndicatorOpt": dumps(marketMap.meta),
+    #             })
+    #         )
+    #     context += [f'- [SUCCESS] DEPLOY MARKET MAP', marketMap.log, '']
+    # except Exception as error:
+    #     context += [f'- [FAILED] DEPLOY MARKET MAP', f'  : {error}', '']
 
     # ---------------------------------------------------------------------------------------
     # DEPLOY BUBBLE

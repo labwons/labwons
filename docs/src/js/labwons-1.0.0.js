@@ -385,7 +385,7 @@ if (SERVICE === "marketmap"){
 
   $mapReset.on('click', function() {
     currentMapViewer = 'all';
-    currentOption = 'return1Day';
+    currentOption = 'returnOn1Day';
     setMainTypes(true);
     setMainOptions();
     setScaleBar();
