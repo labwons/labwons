@@ -75,7 +75,7 @@ let eventClickTreemap;
 
 if (SERVICE === "marketmap"){
   const mouseEvent   = document.createEvent('MouseEvent');
-  const $mapToggle   = $('.map-switch i');
+  const $mapToggle   = $('.map-switch');
   const $mainTypes   = $('.map-select.types');
   const $mainOptions = $('.map-select.options');
   const $searchBar   = $('.map-select.map-searchbar');
@@ -101,7 +101,7 @@ if (SERVICE === "marketmap"){
   };
 
   getCurrentServiceState = function() {
-    return $mapToggle.hasClass('bi-bar-chart-line-fill') ? 'bar' : 'map';
+    return $mapToggle.find('i').hasClass('bi-bar-chart-line-fill') ? 'bar' : 'map';
   };
 
   setMainTypes = function(reset) {
@@ -411,20 +411,22 @@ if (SERVICE === "marketmap"){
     $searchBar.prop('disabled', false);
     if (getCurrentServiceState() === 'bar') {
       $mapToggle
+      .find('i')
       .toggleClass("bi-geo-alt-fill bi-bar-chart-line-fill")
       .css('transform', 'none');
     }
   });
 
   $mapToggle.on('click', function() {
-    $(this).toggleClass("bi-geo-alt-fill bi-bar-chart-line-fill");
-    if ($(this).hasClass('bi-bar-chart-line-fill')) {
+    var $i = $(this).find('i');
+    $i.toggleClass("bi-geo-alt-fill bi-bar-chart-line-fill");
+    if ($i.hasClass('bi-bar-chart-line-fill')) {
       setBar(currentOption);
-      $(this).css('transform', 'scaleX(-1) rotate(-90deg)');
+      $i.css('transform', 'scaleX(-1) rotate(-90deg)');
       $searchBar.prop('disabled', true);
     } else {
       setMap(currentOption);
-      $(this).css('transform', 'none');
+      $i.css('transform', 'none');
       $searchBar.prop('disabled', false);
     }
     setMainTypes(false);
