@@ -362,10 +362,19 @@ if (SERVICE === "marketmap"){
           data.text.push('(미제공)');
         }
       } else {
-        data.text.push(obj[key] + meta.unit);
+        if (String(obj[key]).includes('적자') || String(obj[key]).includes('흑자'))
+        {
+          data.text.push('(' + obj[key] + ')');
+        } else {
+          data.text.push(obj[key] + meta.unit);
+        }
       }
       data.meta.push(obj.meta);
-      data.marker.colors.push(obj[`${key}_c`]);
+      if (String(obj[key]).includes('적자')) {
+        data.marker.colors.push('#F63538');
+      } else {
+        data.marker.colors.push(obj[`${key}_c`]);
+      }
     });
     Plotly.newPlot('plotly', [data], layout, option);
   }
