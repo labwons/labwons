@@ -598,7 +598,22 @@ if (SERVICE === "bubble"){
         yanchor: "bottom",
         opacity: 0.3,
         layer: "above"
-      }]    
+      }],
+      annotations: [{
+        text: srcTradingDate,
+        xref: "paper",
+        yref: "paper",
+        x: 0,
+        y: 1,
+        xanchor: "left",
+        yanchor: "top",
+        showarrow: false,
+        font: {
+          size: 12,
+          color: "black"
+        }
+      }],
+
     };
     var bubbleOption = {
       doubleClick: false,
