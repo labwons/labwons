@@ -626,9 +626,9 @@ if (SERVICE === "bubble"){
     };
 
     var labelX = xObj.label;
-    if (labelX.includes("(")) {
-      labelX = labelX.replace(/\([^)]*\)/g, '');
-    }
+    // if (labelX.includes("(")) {
+    //  labelX = labelX.replace(/\([^)]*\)/g, '');
+    // }
     var hoverX = `%{x:.${xObj.digit}f}`;
     if (xObj.dtype === 'int') {
       hoverX = `%{x:,d}`;
@@ -638,9 +638,9 @@ if (SERVICE === "bubble"){
     }
 
     var labelY = yObj.label;
-    if (labelY.includes("(")) {
-      labelY = labelY.replace(/\([^)]*\)/g, '');
-    }
+    // if (labelY.includes("(")) {
+    //  labelY = labelY.replace(/\([^)]*\)/g, '');
+    // }
     var hoverY = `%{y:.${yObj.digit}f}`;
     if (yObj.dtype === 'int') {
       hoverY = `%{y:,d}`;
