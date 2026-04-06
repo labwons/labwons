@@ -514,8 +514,8 @@ if (SERVICE === "bubble"){
 
   var isDragging = false;
   var slider = '';
-  var currentX = 'return1Day';
-  var currentY = 'return3Month';
+  var currentX = 'returnOn1Day';
+  var currentY = 'returnOn1Month';
   var currentSector = 'ALL';
   var yValMin = 100;
   var yValMax = 0;
