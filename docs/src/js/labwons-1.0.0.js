@@ -603,7 +603,7 @@ if (SERVICE === "bubble"){
         text: srcTradingDate,
         xref: "paper",
         yref: "paper",
-        x: 0,
+        x: 0.01,
         y: 1,
         xanchor: "left",
         yanchor: "top",
